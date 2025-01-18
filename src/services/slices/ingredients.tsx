@@ -11,11 +11,13 @@ export const getIngredients = createAsyncThunk(
 interface IingredientsState {
   ingredients: TIngredient[];
   loading: boolean;
+  error: string | undefined;
 }
 
 const initialState: IingredientsState = {
   ingredients: [],
-  loading: false
+  loading: false,
+  error: undefined
 };
 
 const ingredientsSlice = createSlice({
@@ -33,7 +35,8 @@ const ingredientsSlice = createSlice({
       })
       .addCase(getIngredients.rejected, (state, action) => {
         state.loading = false;
-        console.log(action.error.message);
+        state.error = action.error.message;
+        console.log(state.error);
       });
   },
   selectors: {
