@@ -1,6 +1,7 @@
 import { FEEDS_SLICE_NAME } from './sliceNames';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getFeedsApi, getOrderByNumberApi } from '@api';
+//import { getFeedsApi, getOrderByNumberApi } from '@api';
+import { getFeedsApi, getOrderByNumberApi } from '../../utils/burger-api';
 import { TOrder } from '@utils-types';
 
 export const getFeeds = createAsyncThunk(
@@ -24,7 +25,7 @@ export interface IFeedsState {
   orderError: string | undefined;
 }
 
-const initialState: IFeedsState = {
+export const initialState: IFeedsState = {
   feeds: [],
   total: 0,
   totalToday: 0,
@@ -38,7 +39,18 @@ const initialState: IFeedsState = {
 const feedsSlice = createSlice({
   name: FEEDS_SLICE_NAME,
   initialState,
-  reducers: {},
+  reducers: {
+    resetFeeds: (state) => {
+      state.feeds = [];
+      state.total = 0;
+      state.totalToday = 0;
+      state.feedsLoading = false;
+      state.feedsError = undefined;
+      state.order = null;
+      state.orderLoading = false;
+      state.orderError = undefined;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getFeeds.pending, (state) => {
